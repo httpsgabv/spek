@@ -6,6 +6,11 @@ import {
 import { Badge } from "@spek/ui/components/badge";
 import { Button } from "@spek/ui/components/button";
 import {
+	ChangeGitHistory,
+	type GitBranchSummary,
+	type GitCommit,
+} from "@spek/ui/components/change-git-history";
+import {
 	type ChangeStage,
 	ChangeStageDot,
 	changeStages,
@@ -65,6 +70,8 @@ type ChangeDialogProps = {
 	onOpenChange: (open: boolean) => void;
 	change: ChangeDetails;
 	specs: SpecDeltaFile[];
+	/** Histórico git da change; sem ele a aba Git fica desabilitada. */
+	git?: { branch?: GitBranchSummary; commits: GitCommit[] };
 	/** Link para o modo leitura; sem ele o botão não aparece. */
 	readerHref?: string;
 };
@@ -170,6 +177,7 @@ function ChangeDialog({
 	onOpenChange,
 	change,
 	specs,
+	git,
 	readerHref,
 }: ChangeDialogProps) {
 	const path = `openspec/changes/${change.id}`;
@@ -260,10 +268,14 @@ function ChangeDialog({
 										</span>
 									)}
 								</TabsTrigger>
-								<TabsTrigger value="git" disabled className={tabTriggerClass}>
+								<TabsTrigger
+									value="git"
+									disabled={!git}
+									className={tabTriggerClass}
+								>
 									Git
 									{change.commits !== undefined && (
-										<span className="font-mono font-normal text-[11px]">
+										<span className="font-mono font-normal text-[11px] text-muted-foreground">
 											{change.commits} commits
 										</span>
 									)}
@@ -274,6 +286,14 @@ function ChangeDialog({
 						<TabsContent value="specs" className="flex min-h-0 md:min-h-140">
 							<SpecDeltas files={specs} />
 						</TabsContent>
+						{git && (
+							<TabsContent
+								value="git"
+								className="flex min-h-0 overflow-y-auto md:min-h-140"
+							>
+								<ChangeGitHistory branch={git.branch} commits={git.commits} />
+							</TabsContent>
+						)}
 					</Tabs>
 				</TooltipProvider>
 

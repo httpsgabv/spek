@@ -143,11 +143,89 @@ describe("Modal da change", () => {
 		).toBeInTheDocument();
 	});
 
+	test("aponta o modo leitura da change", () => {
+		const modal = abrirDragDrop();
+
+		expect(
+			within(modal).getByRole("link", { name: "Modo leitura" }),
+		).toHaveAttribute("href", "/leitura/add-card-drag-drop");
+	});
+
 	test("fecha o modal", () => {
 		const modal = abrirDragDrop();
 
 		fireEvent.click(within(modal).getByRole("button", { name: "Fechar" }));
 
 		expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+	});
+});
+
+describe("Aba Git do modal", () => {
+	function abrirGit() {
+		render(<Kanban />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Abrir add-card-drag-drop" }),
+		);
+		const modal = screen.getByRole("dialog");
+		fireEvent.mouseDown(within(modal).getByRole("tab", { name: /Git/ }), {
+			button: 0,
+		});
+		return modal;
+	}
+
+	test("mostra a branch, os commits e o diff do commit mais recente", () => {
+		const modal = abrirGit();
+
+		expect(
+			within(modal).getByText("à frente de main", { exact: false }),
+		).toBeInTheDocument();
+		const commits = within(modal).getByRole("navigation", {
+			name: "Commits relacionados",
+		});
+		expect(within(commits).getAllByRole("button")).toHaveLength(6);
+		expect(
+			within(modal).getByRole("heading", {
+				name: "feat(card): drop entre colunas com reordenação",
+			}),
+		).toBeInTheDocument();
+		expect(within(modal).getByText("2 tasks marcadas")).toBeInTheDocument();
+		expect(
+			within(modal).getByText("Mais 38 linhas alteradas"),
+		).toBeInTheDocument();
+	});
+
+	test("troca o commit exibido", () => {
+		const modal = abrirGit();
+
+		fireEvent.click(
+			within(modal).getByRole("button", {
+				name: /proposal: add-card-drag-drop/,
+			}),
+		);
+
+		expect(
+			within(modal).getByRole("heading", {
+				name: "proposal: add-card-drag-drop",
+			}),
+		).toBeInTheDocument();
+		expect(
+			within(modal).getByText("O diff deste commit ainda não foi carregado."),
+		).toBeInTheDocument();
+	});
+
+	test("alterna o diff para lado a lado", () => {
+		const modal = abrirGit();
+		expect(
+			within(modal).getAllByText("Removida:", { exact: false }),
+		).toHaveLength(3);
+
+		fireEvent.click(within(modal).getByRole("radio", { name: "Lado a lado" }));
+
+		expect(
+			within(modal).getByRole("radio", { name: "Lado a lado" }),
+		).toHaveAttribute("aria-checked", "true");
+		expect(
+			within(modal).getAllByText("Removida:", { exact: false }),
+		).toHaveLength(3);
 	});
 });

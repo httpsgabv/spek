@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AtividadeRouteImport } from './routes/atividade'
 import { Route as KanbanRouteImport } from './routes/kanban'
+import { Route as LeituraChangeIdRouteImport } from './routes/leitura.$changeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtividadeRoute = AtividadeRouteImport.update({
+  id: '/atividade',
+  path: '/atividade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KanbanRoute = KanbanRouteImport.update({
@@ -22,31 +29,44 @@ const KanbanRoute = KanbanRouteImport.update({
   path: '/kanban',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LeituraChangeIdRoute = LeituraChangeIdRouteImport.update({
+  id: '/leitura/$changeId',
+  path: '/leitura/$changeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
+  '/leitura/$changeId': typeof LeituraChangeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
+  '/leitura/$changeId': typeof LeituraChangeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
+  '/leitura/$changeId': typeof LeituraChangeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/kanban'
+  fullPaths: '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/kanban'
-  id: '__root__' | '/' | '/kanban'
+  to: '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
+  id: '__root__' | '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AtividadeRoute: typeof AtividadeRoute
   KanbanRoute: typeof KanbanRoute
+  LeituraChangeIdRoute: typeof LeituraChangeIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/atividade': {
+      id: '/atividade'
+      path: '/atividade'
+      fullPath: '/atividade'
+      preLoaderRoute: typeof AtividadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kanban': {
       id: '/kanban'
       path: '/kanban'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KanbanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/leitura/$changeId': {
+      id: '/leitura/$changeId'
+      path: '/leitura/$changeId'
+      fullPath: '/leitura/$changeId'
+      preLoaderRoute: typeof LeituraChangeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AtividadeRoute: AtividadeRoute,
   KanbanRoute: KanbanRoute,
+  LeituraChangeIdRoute: LeituraChangeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

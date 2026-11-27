@@ -3,6 +3,7 @@ import type { ChangeDetails } from "@spek/ui/components/change-dialog";
 import type { ChangeStage } from "@spek/ui/components/change-stage";
 import type { KanbanChange } from "@spek/ui/components/kanban-board";
 import type { SpecDeltaFile } from "@spek/ui/components/spec-deltas";
+import { historicoGit } from "./git-exemplo";
 
 type DetalhesExemplo = {
 	change: Partial<ChangeDetails>;
@@ -117,7 +118,11 @@ const detalhes: Record<string, DetalhesExemplo> = {
 export function detalhesDaChange(
 	change: KanbanChange,
 	stage: ChangeStage,
-): { change: ChangeDetails; specs: SpecDeltaFile[] } {
+): {
+	change: ChangeDetails;
+	specs: SpecDeltaFile[];
+	git?: (typeof historicoGit)[string];
+} {
 	const extra = detalhes[change.id];
 	return {
 		change: {
@@ -130,5 +135,6 @@ export function detalhesDaChange(
 			...extra?.change,
 		},
 		specs: extra?.specs ?? [],
+		git: historicoGit[change.id],
 	};
 }

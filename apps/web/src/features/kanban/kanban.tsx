@@ -134,6 +134,8 @@ export function Kanban() {
 					onOpenChange={(open) => !open && setAberta(null)}
 					change={detalhes.change}
 					specs={detalhes.specs}
+					git={detalhes.git}
+					readerHref={`/leitura/${detalhes.change.id}`}
 				/>
 			)}
 		</AppLayout>
