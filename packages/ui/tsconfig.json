@@ -1,0 +1,7 @@
+{
+	"extends": "@spek/config/tsconfig/react.json",
+	"compilerOptions": {
+		"paths": { "@spek/ui/*": ["./src/*"] }
+	},
+	"include": ["src"]
+}
