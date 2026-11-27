@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistenteRouteImport } from './routes/assistente'
 import { Route as AtividadeRouteImport } from './routes/atividade'
 import { Route as KanbanRouteImport } from './routes/kanban'
 import { Route as LeituraChangeIdRouteImport } from './routes/leitura.$changeId'
@@ -17,6 +18,11 @@ import { Route as LeituraChangeIdRouteImport } from './routes/leitura.$changeId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistenteRoute = AssistenteRouteImport.update({
+  id: '/assistente',
+  path: '/assistente',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AtividadeRoute = AtividadeRouteImport.update({
@@ -37,12 +43,14 @@ const LeituraChangeIdRoute = LeituraChangeIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
@@ -50,20 +58,29 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
   '/kanban': typeof KanbanRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
+  fullPaths:
+    '/' | '/assistente' | '/atividade' | '/kanban' | '/leitura/$changeId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
-  id: '__root__' | '/' | '/atividade' | '/kanban' | '/leitura/$changeId'
+  to: '/' | '/assistente' | '/atividade' | '/kanban' | '/leitura/$changeId'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistente'
+    | '/atividade'
+    | '/kanban'
+    | '/leitura/$changeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistenteRoute: typeof AssistenteRoute
   AtividadeRoute: typeof AtividadeRoute
   KanbanRoute: typeof KanbanRoute
   LeituraChangeIdRoute: typeof LeituraChangeIdRoute
@@ -76,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistente': {
+      id: '/assistente'
+      path: '/assistente'
+      fullPath: '/assistente'
+      preLoaderRoute: typeof AssistenteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/atividade': {
@@ -104,6 +128,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistenteRoute: AssistenteRoute,
   AtividadeRoute: AtividadeRoute,
   KanbanRoute: KanbanRoute,
   LeituraChangeIdRoute: LeituraChangeIdRoute,
