@@ -1,0 +1,22 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"root": true,
+	"extends": ["@spek/config/biome"],
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"files": {
+		"includes": [
+			"**",
+			"!**/dist",
+			"!**/.output",
+			"!**/.tanstack",
+			"!**/routeTree.gen.ts",
+			"!.agents",
+			"!.claude/skills",
+			"!openspec",
+			"!skills-lock.json",
+			"!**/*.md",
+			"!packages/contracts/src/generated",
+			"!packages/contracts/openapi"
+		]
+	}
+}

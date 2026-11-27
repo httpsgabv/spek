@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - "@biomejs/biome"
+  - "@nestjs/core"
+  - "@swc/core"
+  - esbuild

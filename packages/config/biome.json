@@ -1,0 +1,18 @@
+{
+	"$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+	"root": false,
+	"formatter": { "enabled": true, "indentStyle": "tab" },
+	"javascript": {
+		"formatter": { "quoteStyle": "double" },
+		"parser": { "unsafeParameterDecoratorsEnabled": true }
+	},
+	"css": { "parser": { "tailwindDirectives": true } },
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": { "useImportType": "off" }
+		}
+	}
+}
