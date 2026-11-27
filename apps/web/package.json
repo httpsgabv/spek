@@ -1,0 +1,41 @@
+{
+	"name": "@spek/web",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "vitest run",
+		"check-types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@spek/contracts": "workspace:*",
+		"@spek/ui": "workspace:*",
+		"@tanstack/react-query": "^5.108.4",
+		"@tanstack/react-router": "^1.170.46",
+		"@tanstack/react-router-ssr-query": "^1.167.3",
+		"@tanstack/react-start": "^1.169.7",
+		"cn": "^0.5.2",
+		"lucide-react": "^1.82.0",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
+		"recharts": "3.8.0",
+		"zod": "^4.6.7"
+	},
+	"devDependencies": {
+		"@spek/config": "workspace:*",
+		"@tailwindcss/vite": "^4.3.5",
+		"@testing-library/jest-dom": "^8.0.0",
+		"@testing-library/react": "^16.3.3",
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0",
+		"@vitejs/plugin-react": "^6.3.0",
+		"jsdom": "^31.0.1",
+		"tailwindcss": "^4.3.5",
+		"typescript": "~6.0.3",
+		"vite": "^8.4.0",
+		"vitest": "^5.1.2"
+	}
+}
