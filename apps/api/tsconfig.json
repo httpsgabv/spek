@@ -1,0 +1,7 @@
+{
+	"extends": "@spek/config/tsconfig/nestjs.json",
+	"compilerOptions": {
+		"outDir": "dist"
+	},
+	"include": ["src", "tests", "vitest.config.mts"]
+}
