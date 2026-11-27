@@ -1,39 +1,8 @@
 // Dados fictícios até existir endpoint no contrato para o dashboard.
-import type { AppSidebarRepository } from "@spek/ui/components/app-sidebar";
 import type { ChangesByStageCardProps } from "@spek/ui/components/changes-by-stage-card";
 import type { ChangeProgress } from "@spek/ui/components/changes-progress-card";
 import type { ActivityItem } from "@spek/ui/components/recent-activity-card";
 import type { StatCardProps } from "@spek/ui/components/stat-card";
-
-export const repositorioAtual: AppSidebarRepository = {
-	name: "kanban-board",
-	path: "~/dev/kanban-board",
-	initials: "KB",
-	summary: "9 changes ativas",
-};
-
-export const repositorios: AppSidebarRepository[] = [
-	repositorioAtual,
-	{
-		name: "api-pedidos",
-		path: "~/dev/api-pedidos",
-		initials: "AP",
-		summary: "4 changes ativas",
-	},
-	{
-		name: "app-mobile",
-		path: "~/dev/app-mobile",
-		initials: "AM",
-		summary: "2 changes ativas",
-	},
-	{
-		name: "design-system",
-		path: "~/dev/design-system",
-		initials: "DS",
-		summary: "openspec/ não encontrado",
-		warning: true,
-	},
-];
 
 export const indicadores: StatCardProps[] = [
 	{
