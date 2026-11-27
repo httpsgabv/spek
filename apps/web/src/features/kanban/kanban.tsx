@@ -1,3 +1,4 @@
+import { ChangeDialog } from "@spek/ui/components/change-dialog";
 import { ChangeFilesLegend } from "@spek/ui/components/change-files";
 import {
 	type ChangeProgress,
@@ -8,14 +9,15 @@ import {
 	type KanbanColumn,
 } from "@spek/ui/components/kanban-board";
 import {
-	type KanbanView,
 	KanbanToolbar,
+	type KanbanView,
 	KanbanViewToggle,
 } from "@spek/ui/components/kanban-toolbar";
 import { PageHeader } from "@spek/ui/components/page-header";
 import { useMemo, useState } from "react";
 import { AppLayout } from "@/components/app-layout";
 import { arquivo, autores, colunas } from "./dados-exemplo";
+import { detalhesDaChange } from "./detalhes-exemplo";
 
 type Filtros = {
 	busca: string;
@@ -74,12 +76,20 @@ export function Kanban() {
 	const [busca, setBusca] = useState("");
 	const [capability, setCapability] = useState<string | null>(null);
 	const [autor, setAutor] = useState<string | null>(null);
+	const [aberta, setAberta] = useState<string | null>(null);
 
 	const capabilities = useMemo(() => capabilitiesPorUso(colunas), []);
 	const filtradas = useMemo(
 		() => filtrarColunas(colunas, { busca, capability, autor }),
 		[busca, capability, autor],
 	);
+	const detalhes = useMemo(() => {
+		for (const coluna of colunas) {
+			const change = coluna.changes.find((item) => item.id === aberta);
+			if (change) return detalhesDaChange(change, coluna.stage);
+		}
+		return null;
+	}, [aberta]);
 
 	return (
 		<AppLayout activeHref="/kanban">
@@ -107,12 +117,25 @@ export function Kanban() {
 			/>
 
 			{visao === "quadro" ? (
-				<KanbanBoard columns={filtradas} archive={arquivo} />
+				<KanbanBoard
+					columns={filtradas}
+					archive={arquivo}
+					onChangeSelect={(change) => setAberta(change.id)}
+				/>
 			) : (
 				<ChangesProgressCard changes={paraLista(filtradas)} />
 			)}
 
 			<ChangeFilesLegend className="px-1.5" />
+
+			{detalhes && (
+				<ChangeDialog
+					open
+					onOpenChange={(open) => !open && setAberta(null)}
+					change={detalhes.change}
+					specs={detalhes.specs}
+				/>
+			)}
 		</AppLayout>
 	);
 }
