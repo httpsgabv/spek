@@ -34,7 +34,7 @@ type ChangeProgress = {
 
 type ChangesProgressCardProps = {
 	changes: ChangeProgress[];
-	kanbanHref: string;
+	kanbanHref?: string;
 };
 
 function ChangesProgressCard({
@@ -45,11 +45,13 @@ function ChangesProgressCard({
 		<Card>
 			<CardHeader>
 				<CardTitle>Progresso das changes</CardTitle>
-				<CardAction>
-					<Button variant="link" size="sm" className="h-auto p-0" asChild>
-						<a href={kanbanHref}>Ver no kanban →</a>
-					</Button>
-				</CardAction>
+				{kanbanHref && (
+					<CardAction>
+						<Button variant="link" size="sm" className="h-auto p-0" asChild>
+							<a href={kanbanHref}>Ver no kanban →</a>
+						</Button>
+					</CardAction>
+				)}
 			</CardHeader>
 			<CardContent>
 				<Table className="min-w-160">
