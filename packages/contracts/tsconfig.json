@@ -1,0 +1,4 @@
+{
+	"extends": "@spek/config/tsconfig/react.json",
+	"include": ["src", "orval.config.ts"]
+}

@@ -1,0 +1,111 @@
+{
+	"openapi": "3.1.0",
+	"paths": {
+		"/api/health": {
+			"get": {
+				"operationId": "consultarHealth",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthSaida_Output"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Erro",
+						"content": {
+							"application/problem+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProblemDetail"
+								}
+							}
+						}
+					}
+				},
+				"summary": "",
+				"tags": [
+					"health"
+				]
+			}
+		}
+	},
+	"info": {
+		"title": "spek-api",
+		"description": "",
+		"version": "0.1.0",
+		"contact": {}
+	},
+	"tags": [],
+	"servers": [],
+	"components": {
+		"schemas": {
+			"HealthSaida_Output": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string",
+						"const": "ok"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"additionalProperties": false
+			},
+			"ProblemDetail": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"status": {
+						"type": "integer",
+						"minimum": -9007199254740991,
+						"maximum": 9007199254740991
+					},
+					"detail": {
+						"type": "string"
+					},
+					"instance": {
+						"type": "string"
+					},
+					"errors": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"field": {
+									"type": "string"
+								},
+								"message": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"field",
+								"message"
+							],
+							"additionalProperties": false
+						}
+					}
+				},
+				"required": [
+					"type",
+					"title",
+					"status",
+					"detail",
+					"instance"
+				],
+				"additionalProperties": false
+			}
+		}
+	}
+}
