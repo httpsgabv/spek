@@ -5,30 +5,40 @@ type ChangeStage = "proposta" | "design" | "andamento" | "concluida";
 
 const changeStages: Record<
 	ChangeStage,
-	{ label: string; text: string; bg: string; indicator: string }
+	{
+		label: string;
+		text: string;
+		bg: string;
+		soft: string;
+		indicator: string;
+	}
 > = {
 	proposta: {
 		label: "Proposta",
 		text: "text-chart-1",
 		bg: "bg-chart-1",
+		soft: "bg-chart-1/15",
 		indicator: "*:data-[slot=progress-indicator]:bg-chart-1",
 	},
 	design: {
 		label: "Design",
 		text: "text-chart-2",
 		bg: "bg-chart-2",
+		soft: "bg-chart-2/15",
 		indicator: "*:data-[slot=progress-indicator]:bg-chart-2",
 	},
 	andamento: {
 		label: "Em andamento",
 		text: "text-chart-3",
 		bg: "bg-chart-3",
+		soft: "bg-chart-3/15",
 		indicator: "*:data-[slot=progress-indicator]:bg-chart-3",
 	},
 	concluida: {
 		label: "Concluída",
 		text: "text-chart-4",
 		bg: "bg-chart-4",
+		soft: "bg-chart-4/15",
 		indicator: "*:data-[slot=progress-indicator]:bg-chart-4",
 	},
 };

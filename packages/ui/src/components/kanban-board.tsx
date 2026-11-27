@@ -55,14 +55,20 @@ type KanbanArchive = {
 type KanbanBoardProps = {
 	columns: KanbanColumn[];
 	archive: KanbanArchive;
+	/** Chamado ao clicar num card; sem ele o card usa `href`, se houver. */
+	onChangeSelect?: (change: KanbanChange) => void;
 };
 
-function KanbanBoard({ columns, archive }: KanbanBoardProps) {
+function KanbanBoard({ columns, archive, onChangeSelect }: KanbanBoardProps) {
 	return (
 		<ScrollArea className="w-full pb-2.5">
 			<div className="flex min-w-295 items-start gap-3">
 				{columns.map((column) => (
-					<KanbanStageColumn key={column.stage} column={column} />
+					<KanbanStageColumn
+						key={column.stage}
+						column={column}
+						onChangeSelect={onChangeSelect}
+					/>
 				))}
 				<KanbanArchiveColumn archive={archive} />
 			</div>
@@ -98,7 +104,13 @@ function KanbanColumnHeader({
 	);
 }
 
-function KanbanStageColumn({ column }: { column: KanbanColumn }) {
+function KanbanStageColumn({
+	column,
+	onChangeSelect,
+}: {
+	column: KanbanColumn;
+	onChangeSelect?: (change: KanbanChange) => void;
+}) {
 	const label = changeStages[column.stage].label;
 	return (
 		<Card
@@ -122,6 +134,7 @@ function KanbanStageColumn({ column }: { column: KanbanColumn }) {
 							key={change.id}
 							change={change}
 							stage={column.stage}
+							onSelect={onChangeSelect && (() => onChangeSelect(change))}
 						/>
 					))
 				) : (
@@ -137,10 +150,13 @@ function KanbanStageColumn({ column }: { column: KanbanColumn }) {
 function KanbanChangeCard({
 	change,
 	stage,
+	onSelect,
 }: {
 	change: KanbanChange;
 	stage: ChangeStage;
+	onSelect?: () => void;
 }) {
+	const interactive = Boolean(onSelect || change.href);
 	const percent = change.tasks?.total
 		? (change.tasks.done / change.tasks.total) * 100
 		: 0;
@@ -150,7 +166,7 @@ function KanbanChangeCard({
 			size="sm"
 			className={cn(
 				"gap-2.5 bg-muted/40",
-				change.href && "transition-colors hover:bg-muted/70",
+				interactive && "transition-colors hover:bg-muted/70",
 			)}
 		>
 			<CardHeader className="gap-1">
@@ -207,6 +223,18 @@ function KanbanChangeCard({
 		</Card>
 	);
 
+	if (onSelect) {
+		return (
+			<button
+				type="button"
+				onClick={onSelect}
+				aria-label={`Abrir ${change.id}`}
+				className="rounded-xl text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+			>
+				{card}
+			</button>
+		);
+	}
 	if (!change.href) return card;
 	return (
 		<a
