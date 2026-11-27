@@ -77,3 +77,77 @@ describe("Kanban", () => {
 		).not.toBeInTheDocument();
 	});
 });
+
+describe("Modal da change", () => {
+	function abrirDragDrop() {
+		render(<Kanban />);
+		fireEvent.click(
+			screen.getByRole("button", { name: "Abrir add-card-drag-drop" }),
+		);
+		return screen.getByRole("dialog");
+	}
+
+	test("abre a change ao clicar no card, na aba Specs", () => {
+		const modal = abrirDragDrop();
+
+		expect(
+			within(modal).getByRole("heading", {
+				name: "Arrastar e soltar cards entre colunas",
+			}),
+		).toBeInTheDocument();
+		expect(within(modal).getByText("feat/card-drag-drop")).toBeInTheDocument();
+		expect(within(modal).getByRole("tab", { name: /Specs/ })).toHaveAttribute(
+			"aria-selected",
+			"true",
+		);
+		expect(
+			within(modal).getByRole("heading", {
+				name: "Requirement: Mover card por arrastar e soltar",
+			}),
+		).toBeInTheDocument();
+		expect(
+			within(modal).getByText("o card volta para a posição original"),
+		).toBeInTheDocument();
+	});
+
+	test("troca o arquivo de delta exibido", () => {
+		const modal = abrirDragDrop();
+
+		fireEvent.click(
+			within(modal).getByRole("button", { name: /column\/spec\.md/ }),
+		);
+
+		expect(
+			within(modal).getByRole("heading", {
+				name: "Requirement: Coluna como área de soltura",
+			}),
+		).toBeInTheDocument();
+		expect(
+			within(modal).getByText("openspec/specs/column/spec.md"),
+		).toBeInTheDocument();
+	});
+
+	test("mostra só o texto novo do requisito modificado", () => {
+		const modal = abrirDragDrop();
+		expect(
+			within(modal).getByText(/ser ordenados pela data de criação/),
+		).toBeInTheDocument();
+
+		fireEvent.click(within(modal).getByRole("radio", { name: "Só o novo" }));
+
+		expect(
+			within(modal).queryByText(/ser ordenados pela data de criação/),
+		).not.toBeInTheDocument();
+		expect(
+			within(modal).getByText(/manter a ordem definida manualmente/),
+		).toBeInTheDocument();
+	});
+
+	test("fecha o modal", () => {
+		const modal = abrirDragDrop();
+
+		fireEvent.click(within(modal).getByRole("button", { name: "Fechar" }));
+
+		expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+	});
+});
