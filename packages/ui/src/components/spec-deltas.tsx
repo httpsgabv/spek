@@ -438,6 +438,7 @@ function SpecDeltas({ files }: { files: SpecDeltaFile[] }) {
 }
 
 export {
+	NormativeText,
 	type SpecDeltaFile,
 	type SpecDeltaGroup,
 	type SpecDeltaOperation,
@@ -445,5 +446,6 @@ export {
 	SpecDeltas,
 	type SpecRequirement,
 	type SpecScenario,
+	SpecScenarioBlock,
 	type SpecScenarioStep,
 };
