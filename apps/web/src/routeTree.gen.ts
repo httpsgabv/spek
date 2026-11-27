@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssistenteRouteImport } from './routes/assistente'
 import { Route as AtividadeRouteImport } from './routes/atividade'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as KanbanRouteImport } from './routes/kanban'
 import { Route as RascunhosRouteImport } from './routes/rascunhos'
 import { Route as LeituraChangeIdRouteImport } from './routes/leitura.$changeId'
@@ -29,6 +30,11 @@ const AssistenteRoute = AssistenteRouteImport.update({
 const AtividadeRoute = AtividadeRouteImport.update({
   id: '/atividade',
   path: '/atividade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KanbanRoute = KanbanRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/kanban': typeof KanbanRoute
   '/rascunhos': typeof RascunhosRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/kanban': typeof KanbanRoute
   '/rascunhos': typeof RascunhosRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/assistente': typeof AssistenteRoute
   '/atividade': typeof AtividadeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/kanban': typeof KanbanRoute
   '/rascunhos': typeof RascunhosRoute
   '/leitura/$changeId': typeof LeituraChangeIdRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistente'
     | '/atividade'
+    | '/configuracoes'
     | '/kanban'
     | '/rascunhos'
     | '/leitura/$changeId'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistente'
     | '/atividade'
+    | '/configuracoes'
     | '/kanban'
     | '/rascunhos'
     | '/leitura/$changeId'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistente'
     | '/atividade'
+    | '/configuracoes'
     | '/kanban'
     | '/rascunhos'
     | '/leitura/$changeId'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssistenteRoute: typeof AssistenteRoute
   AtividadeRoute: typeof AtividadeRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   KanbanRoute: typeof KanbanRoute
   RascunhosRoute: typeof RascunhosRoute
   LeituraChangeIdRoute: typeof LeituraChangeIdRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/atividade'
       fullPath: '/atividade'
       preLoaderRoute: typeof AtividadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kanban': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistenteRoute: AssistenteRoute,
   AtividadeRoute: AtividadeRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   KanbanRoute: KanbanRoute,
   RascunhosRoute: RascunhosRoute,
   LeituraChangeIdRoute: LeituraChangeIdRoute,
